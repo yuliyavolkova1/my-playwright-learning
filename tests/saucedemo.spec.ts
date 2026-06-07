@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('SauceDemo', () => {
 // SauceDemo test suite — Week 3-4
-
+//test
 
   // Login before each test
   test.beforeEach(async ({ page }) => {
@@ -114,4 +114,17 @@ test.describe('SauceDemo', () => {
     ).toBeVisible();
   });
 
+  // Test 6 — locked out user
+  test('locked out user cannot login', async ({ page }) => {
+    await page.goto('/');
+    await page.getByPlaceholder('Username').fill('locked_out_user');
+    await page.getByPlaceholder('Password').fill('secret_sauce');
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    await expect(
+      page.getByText('Epic sadface: Sorry, this user has been locked out.'),
+      'Error should appear for locked out user'
+    ).toBeVisible();
+  });
 });
+ 
